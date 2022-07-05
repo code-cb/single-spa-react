@@ -1,0 +1,7 @@
+{
+  "extends": "@codecb/tsconfigs/tsconfig.react-lib",
+  "compilerOptions": {
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}
