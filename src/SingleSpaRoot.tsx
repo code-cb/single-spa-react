@@ -8,7 +8,7 @@ export const SingleSpaRoot: FC<SingleSpaRootProps> = ({
   updateFinished,
 }) => {
   useEffect(() => {
-    setTimeout(mountFinished);
+    mountFinished && setTimeout(mountFinished);
     return () => {
       setTimeout(unmountFinished);
     };

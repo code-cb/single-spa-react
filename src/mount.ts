@@ -36,8 +36,7 @@ export const createMount =
   ): LifeCycleFn<RootComponentProps> =>
   props =>
     new Promise<void>(resolve => {
-      config.mountFinished = resolve;
-      const elementToRender = getElementToRender(config, props);
+      const elementToRender = getElementToRender(config, props, resolve);
       const domElement = chooseDomElementGetter(config)(props);
       const root = handleDom(config, elementToRender, domElement);
       config.roots.set(props.name, root);

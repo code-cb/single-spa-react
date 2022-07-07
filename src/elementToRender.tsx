@@ -39,14 +39,10 @@ const createErrorBoundary = <RootComponentProps,>(
 export const getElementToRender = <RootComponentProps,>(
   config: SingleSpaReactConfig<RootComponentProps>,
   props: AppProps & RootComponentProps,
+  mountFinished: VoidFunction | null,
 ) => {
-  const {
-    mountFinished,
-    RootComponent,
-    SingleSpaContext,
-    unmountFinished,
-    updateResolves,
-  } = config;
+  const { RootComponent, SingleSpaContext, unmountFinished, updateResolves } =
+    config;
   const { name } = props;
   const ErrorBoundary = createErrorBoundary(config, props);
   const updateFinished = () => {

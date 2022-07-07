@@ -12,27 +12,31 @@ const formatToExtension = (format: ModuleFormat) => {
   switch (format) {
     case 'cjs':
     case 'commonjs':
-      return '.cjs';
+      return 'cjs';
     case 'es':
     case 'esm':
     case 'module':
-      return '.mjs';
+      return 'mjs';
     default:
-      return '.js';
+      return 'js';
   }
 };
 
 const config = defineConfig({
   input: 'src/index.ts',
-  external: [/^react\/?/, /^react-dom\/?/],
+  external: [/@codecb\//, /^react\/?/, /^react-dom\/?/],
   output: formats.map(format => ({
     dir: `dist/${format}`,
+    entryFileNames: `[name].${formatToExtension(format)}`,
     format,
-    name: `index.${formatToExtension(format)}`,
+    sourcemap: isDev,
   })),
   plugins: [
     ts(),
-    babel({ presets: ['@codecb/babel'], babelHelpers: 'bundled' }),
+    babel({
+      babelHelpers: 'bundled',
+      presets: [['@codecb/babel', { target: 'browser' }]],
+    }),
     !isDev && terser(),
   ],
 });

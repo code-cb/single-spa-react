@@ -18,6 +18,7 @@ export interface SingleSpaReactOptions<RootComponentProps> {
     errInfo: ErrorInfo,
     props: RootComponentProps,
   ) => ReactElement;
+  parcelCanUpdate?: boolean;
   RootComponent: ComponentType<RootComponentProps>;
 }
 
@@ -27,7 +28,7 @@ export type SingleSpaContext = Context<SingleSpaContextValue | undefined>;
 
 export interface SingleSpaRootProps {
   children?: ReactNode;
-  mountFinished: VoidFunction;
+  mountFinished: VoidFunction | null;
   name: string;
   unmountFinished: VoidFunction;
   updateFinished: VoidFunction;
@@ -36,8 +37,7 @@ export interface SingleSpaRootProps {
 type AppName = string;
 
 export interface SingleSpaReactConfig<RootComponentProps>
-  extends SingleSpaReactOptions<RootComponentProps> {
-  mountFinished: VoidFunction;
+  extends Omit<SingleSpaReactOptions<RootComponentProps>, 'parcelCanUpdate'> {
   roots: Map<AppName, Root>;
   SingleSpaContext: SingleSpaContext;
   unmountFinished: VoidFunction;

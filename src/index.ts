@@ -8,6 +8,7 @@ import {
   SingleSpaReactOptions,
 } from './types';
 import { createUnmount } from './unmount';
+import { createUpdate } from './update';
 
 let SingleSpaContext: SingleSpaContext | null = null;
 
@@ -22,17 +23,17 @@ const validateOptions = (opts: SingleSpaReactOptions<any>) => {
     );
 };
 
-export const singleSpaReact = <RootComponentProps>(
-  opts: SingleSpaReactOptions<RootComponentProps>,
-): LifeCycles<RootComponentProps> => {
-  validateOptions(opts);
+export const singleSpaReact = <RootComponentProps>({
+  parcelCanUpdate,
+  ...rest
+}: SingleSpaReactOptions<RootComponentProps>): LifeCycles<RootComponentProps> => {
+  validateOptions(rest);
 
   const config: SingleSpaReactConfig<RootComponentProps> = {
-    ...opts,
+    ...rest,
     SingleSpaContext: (SingleSpaContext ??= createContext<
       SingleSpaContextValue | undefined
     >(undefined)),
-    mountFinished: () => {},
     roots: new Map(),
     unmountFinished: () => {},
     updateResolves: new Map(),
@@ -42,6 +43,7 @@ export const singleSpaReact = <RootComponentProps>(
     bootstrap: async () => {}, // Do nothing
     mount: createMount(config),
     unmount: createUnmount(config),
+    update: parcelCanUpdate ? createUpdate(config) : undefined,
   };
 };
 

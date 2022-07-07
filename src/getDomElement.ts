@@ -1,8 +1,9 @@
+import { applicationElementId } from '@codecb/single-spa-layout/browser';
 import { AppProps } from 'single-spa';
 import { SingleSpaReactConfig } from './types';
 
 const defaultDomElementGetter = ({ name }: AppProps) => {
-  const domId = `single-spa-application:${name}`;
+  const domId = applicationElementId(name);
   let domElement = document.getElementById(domId);
   if (!domElement) {
     domElement = document.createElement('div');
